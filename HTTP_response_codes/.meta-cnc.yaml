@@ -17,6 +17,7 @@ extends:
 labels:
   collection:
     - Configure
+    - SecOps
 
 # ---------------------------------------------------------------------
 # end of preamble section
