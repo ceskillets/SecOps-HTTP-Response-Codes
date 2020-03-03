@@ -4,6 +4,10 @@ This HTTP Status code Skillet will create custom threat prevention signatures th
 HTTP status codes in PAN-OS logs. It is designed to help customer determine
 misconfigurations and help with more focused Application ID (App-ID) signatures.
 
+## Validation Skillet 
+
+The repo also includes a validation skillet allowing the user to validate that the custom IDs
+are not currently in use before attempting to play the configuration skillet.
 
 Support Policy
 

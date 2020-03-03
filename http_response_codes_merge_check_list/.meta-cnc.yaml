@@ -1,0 +1,100 @@
+name: validate-http-response-codes-bae945bc-c667-4e56-a3fc-73bbb5afbe0f
+label: SecOps - check http response codes config merge - panos_v9.0
+
+description: |
+  This skillet checks to ensure there are no custom threat IDs using the same values
+  https://github.com/ceskillets/SecOps-HTTP-Response-Codes
+
+type: pan_validation
+labels:
+  collection:
+    - Validation
+    - SecOps
+
+variables:
+  - name: skillet_threat_ID_list
+    description: |
+      list of threat IDs used in the config skillet
+      matched against the configured IDs to test for conflicts
+    default:
+      - "41001"
+      - "41002"
+      - "41003"
+      - "41004"
+      - "41005"
+      - "41006"
+      - "41007"
+      - "41008"
+      - "41009"
+      - "41010"
+      - "41011"
+      - "41012"
+      - "41013"
+      - "41014"
+      - "41015"
+      - "41016"
+      - "41017"
+      - "41018"
+      - "41019"
+      - "41020"
+      - "41021"
+      - "41022"
+      - "41023"
+      - "41024"
+      - "41025"
+      - "41026"
+      - "41027"
+      - "41028"
+      - "41029"
+      - "41030"
+      - "41031"
+      - "41032"
+      - "41033"
+      - "41034"
+      - "41035"
+      - "41036"
+      - "41037"
+      - "41038"
+      - "41039"
+      - "41040"
+      - "41041"
+      - "41042"
+      - "41043"
+      - "41044"
+      - "41045"
+      - "41046"
+      - "41047"
+      - "41048"
+      - "41049"
+      - "41050"
+      - "41051"
+      - "41052"
+      - "41053"
+      - "41054"
+      - "41055"
+      - "41056"
+      - "41057"
+      - "41058"
+      - "41059"
+    type_hint: disabled
+
+snippets:
+
+  - name: threats
+    cmd: parse
+    variable: config
+    outputs:
+      - name: config_threat_ID_list
+        capture_list: /config/shared/threats/vulnerability/entry/@name
+      - name: skillet_IDs_found_in_config
+        capture_list: /config/shared/threats/vulnerability/entry/@name
+        filter_items: item in skillet_threat_ID_list
+
+  - name: ids_in_use
+    label: check if custom Threat IDs are available
+    test: skillet_IDs_found_in_config | length == 0
+    fail_message: |
+      Founds IDs already in use: {{ skillet_IDs_found_in_config }}
+    pass_message: |
+      No skillet Threat IDs found in the current configuration. Okay to load.
+    documentation_link: https://github.com/ceskillets/SecOps-HTTP-Response-Codes
